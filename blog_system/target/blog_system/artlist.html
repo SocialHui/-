@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的文章列表</title>
+    <script src="jquery-1.9.1.min.js"></script>
+    <script>
+
+
+
+        //文章删除操作
+        function mydel(id){
+            if (confirm("确认删除？")) {
+                jQuery.getJSON("mydel",{
+                    "id":id
+                },function (data) {
+                    if (data != null && data.state == 200) {
+                        //删除成功，进行刷新界面
+                        location.href = location.href;   //刷新当前页面
+                    } else {
+                        //删除失败
+                        alert("删除失败："+data.msg);
+                    }
+                })
+            }
+        }
+        jQuery(function () {
+            jQuery.getJSON("myartlist",
+                {
+
+                },function (data) {
+                if (data != null && data.list != null) {
+                    //代表查询成功
+                    //查询成功之后就在页面进行拼接
+                    var html = "";
+                    for (var i = 0; i < data.list.length; i++) {
+                        var articleinfo = data.list[i];
+                        html += "<tr>" +
+                            "<td>" + articleinfo.id+ "</td>" +
+                            "<td>" + "<a href='detail.html?id="+ articleinfo.id +"'>" + articleinfo.title + "</a>" + "</td>" +
+                            "<td>" + articleinfo.createTime + "</td>" +
+                            "<td>" + articleinfo.rCount + "</td>" +
+                            "<td>" +"<a href='upart.html?id="+ articleinfo.id +"'>修改</a> <a href='javascript:mydel("+ articleinfo.id +")'>删除</a>" + "</td>" +
+                            "</tr>"
+                    }
+                    jQuery("#tab").append(html);
+                } else {
+                    //查询失败
+                    alert("查询失败"+data.msg);
+                }
+            })
+        });
+    </script>
+</head>
+<body>
+   <div style="text-align: center; margin-top: 50px;">
+       <h1>我的文章列表</h1>
+       <a href="addart.html">添加文章</a>
+       <table id="tab" style="width: 80%;  margin-left: 100px" border="1" cellspacing="0">
+           <tr>
+               <td>文章编号</td>
+               <td>标题</td>
+               <td>创建时间</td>
+               <td>阅读量</td>
+               <td>操作</td>
+           </tr>
+       </table>
+   </div>
+</body>
+</html>

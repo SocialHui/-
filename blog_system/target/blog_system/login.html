@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+    <script src="jquery-1.9.1.min.js"></script>
+    <script>
+        function mysub(type) {
+            var username = jQuery("#username");
+            var password = jQuery("#password");
+            if (type == 2) {
+                if (confirm("确认清空？")) {
+                    username.val("");
+                    password.val("");
+                    username.focus();
+                }
+                return false;
+            }
+            if (username.val().trim() =="") {
+                alert("请先输入用户名");
+                username.focus();
+                return false;
+            }
+            if (password.val().trim() =="") {
+                alert("请先输入密码");
+                password.focus();
+                return false;
+            }
+
+            jQuery.getJSON("login",{
+                "username":username.val(),
+                "password":password.val()
+            },function (data) {
+                if (data != null && data.state == 200) {
+                    //alert("登录成功");
+                    //登录成功之后跳转到文章列表的页面
+                    location.href = "artlist.html";
+                } else {
+                    alert("登陆失败,"+data.msg);
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+   <div style="margin-top: 100px; text-align: center">
+       <h1>登录</h1>
+       用户名：<input id="username" name="username"> <p></p>
+       密&nbsp&nbsp&nbsp&nbsp码：<input id="password" name="password" type="password"><p></p>
+       <input type="button" value="登录" onclick="mysub(1)">
+       <input type="button" value="清空" onclick="mysub(2)">
+   </div>
+</body>
+</html>
