@@ -38,7 +38,7 @@ class Test(unittest.TestCase):
         time.sleep(2)
         driver.find_element_by_css_selector("#blog-collapse > form > div:nth-child(2) > input").click()
         time.sleep(2)
-        driver.switch_to_alert().accept()
+        driver.switch_to.alert.accept()
         time.sleep(2)
 
 
@@ -57,11 +57,11 @@ class Test(unittest.TestCase):
         time.sleep(2)
         driver.find_element_by_xpath(value).click()
         time.sleep(2)
-        driver.switch_to_alert().dismiss()
+        driver.switch_to.alert.dismiss()
         time.sleep(2)
         driver.find_element_by_xpath(value).click()
         time.sleep(2)
-        driver.switch_to_alert().accept()
+        driver.switch_to.alert.accept()
         time.sleep(2)
 
     def tearDown(self):
