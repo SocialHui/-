@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文章详情页</title>
+    <script src="jquery-1.9.1.min.js"></script>
+    <script>
+
+        var id = 0;
+
+        //时间格式化
+        function datefm(timespam) {
+            var date = new Date(timespam);
+            var year = date.getFullYear();
+            var month = date.getMonth()+1;
+            var day = date.getDay();
+            return  year+"-"+month+"-"+day;
+        }
+
+
+        jQuery(function () {
+            var id = location.search.split("=")[1];  //文章id
+
+            //文章详情
+            jQuery.getJSON("initart",{
+                "id":id
+            },function (data) {
+                if (data != null && data.state == 200) {
+                    var art = data.art;
+                    jQuery("#title").append(art.title);
+                    jQuery("#content").append(art.content);
+                    jQuery("#createtime").append(datefm(art.createTime));
+                    jQuery("#username").append(art.username);
+                    jQuery("#rcount").append(art.rCount);
+                } else {
+                    alert("查询失败："+data.msg);
+                }
+            })
+
+            //阅读量+1
+            jQuery.getJSON("upcount",{
+                "id":id
+            },function (data) {
+
+            })
+        });
+    </script>
+</head>
+<body>
+<div style="margin-left: 50px; margin-top: 70px">
+    <h1 id="title">标题：</h1>
+    <p></p>
+    正文：<span id="content"></span>
+    <p></p>
+    <div>
+        <hr>
+        <div style="text-align: left">
+            发布时间：<span id="createtime"></span>
+            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            作者：<span id="username"></span>
+            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            阅读量：<span id="rcount"></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
